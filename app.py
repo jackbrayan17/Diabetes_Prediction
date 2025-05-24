@@ -21,7 +21,7 @@ st.sidebar.image('2.jpg')
 def main():
     st.markdown("<h1 style='text-align: center; color: brown;'>Diabetes Prediction</h1>", unsafe_allow_html=True)
     st.markdown("<h2 style='text-align: center; color: black;'>Diabetes Study in Cameroon</h2>", unsafe_allow_html=True)
-    menu = ['Home','Analysis','Machine Learning','Data Visualisation']
+    menu = ['Home','Analysis','Data Visualisation','Machine Learning']
     choice = st.sidebar.selectbox('Select Menu',menu)
     data = load_data('diabetes.csv')
     if choice == 'Home':
