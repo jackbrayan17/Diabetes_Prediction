@@ -1,0 +1,31 @@
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    software-properties-common \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirement file and source code
+COPY requirements.txt ./
+COPY src/ ./src/
+
+# Install Python dependencies
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Expose Streamlit default port
+EXPOSE 8501
+
+# Healthcheck to verify Streamlit is running
+HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health || exit 1
+
+# Change working directory to /app/src so pkl files are directly accessible
+WORKDIR /app/src
+
+# Run the Streamlit app
+ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
